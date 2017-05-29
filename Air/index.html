@@ -13,49 +13,52 @@
       	mui.init();
     </script>
     <style type="text/css">
-    		.main-bgColor{background: lightblue;}
+    		!.main-bgColor{background:white}
     		.main-bgImg{
     			height: 100%;
-    			background-image: url(images/back.jpg);
+    			!background-image: url(images/back.jpg);
     		}
 			.div-circle{
 				display: inline-block;
 				vertical-align: middle;
-				width: 70px;
-				height: 70px;
+				width: 90px;
+				height: 90px;
 				border-radius: 50%;
-				border: 1px solid black;
-				padding: 15px 0px;
-				margin-bottom: 5px;
-				font-size: 12px;
+				border: 3px solid black;
+				border-color: rgba(255, 255, 255, 0.5);
+				padding: 20px 0px;
+				margin-bottom: -10px;
+				font-size: 30px;
+			
 			}
 			
 			.big-circle{
 				background: lightblue;
-				width: 100px;
-				height: 100px;
+				width: 120px;
+				height: 120px;
 				margin: -10px;
-				padding-top: 10px;
+				padding-top: 15px;
 			}
 			
 			.inner-circle{
 				background: white;
 				display: inline-block;
 				vertical-align: middle;
-				width: 80px;
-				height: 80px;
+				width: 85px;
+				height: 85px;
 				border-radius: 50%;
 				border: 1px solid blue ;
-				padding-top: 15px;
+				border-color: rgba(255, 255, 255, 0.5);
+				padding-top: 5px;
 			}
-			.font-css1{color: #333333;font-size: 15px;}
-			.font-css2{color: #333333;font-size: 10px;}
-			.font-css3{color: #333333;font-size: 10px;}
-			.font-css4{color: lightcoral;font-size: 16px;}
+			.font-css1{color: #333333;font-size: 25px;}
+			.font-css2{color: #333333;font-size: 13px;}
+			.font-css3{color: #333333;line-height: 2.5em;font-size: 18px;}
+			.font-css4{color: lightcoral;font-size: 18px;}
 			
-			.font-css5{color: #333333;font-size: 20px;}
+			.font-css5{color: #333333;font-size: 24px;}
 			
-			.font-css6{line-height: 2em;padding: 15px;}
+			.font-css6{line-height: 1em;padding: 5px;font-size: 20px;}
 			
 			.air-btn .div-circle{margin: 20px 10px;}
 			
@@ -64,10 +67,12 @@
 			.mt10{margin-top: 10px;}
 			
 			.ok-btn{border: 1px solid #E3E3E3;padding: 5px auto;background: ;}
+			
 	</style>
 	
 </head>
 <body>
+
 	 <!-- 主界面菜单同时移动 -->
 	     <!-- 侧滑导航根容器 -->
 	     <div class="mui-off-canvas-wrap mui-draggable">
@@ -151,30 +156,23 @@
 		    </div>
 		    <div class="mui-row main-bgColor" style="position: fixed;bottom: 50px;width: 100%;border-bottom: 1px solid deepskyblue;">
 		        <div class="mui-col-xs-5 mui-text-center font-css6">
-		        	<p>机体型号</p>
-		        	<p>状态 </p>
+		        	<p>机体型号:</p>
+		        	<p>状态 :</p>
+		        	<p>室外温度:</p>
 		        </div>
-		        <div class="mui-col-xs-7 mui-text-center air-btn">
-		        	<!--<div class="div-circle">
-		        		<div class="font-css1">温度</div>
-		        		<div class="font-css5">+</div>
-		        	</div>
-		        	<div class="div-circle">
-		        		<div class="font-css1">温度</div>
-		        		<div class="font-css5">-</div>
-		        	</div>-->
-		        	<p style="border: 1px solid lightblue;">
-		        		温度
-		        		<br />
-		        		<span class="mui-icon mui-icon-plus"></span>
-		        	</p>
-		        	<p style="border: 1px solid lightblue;">
-		        		温度
-		        		<br />
-		        		<span class="mui-icon mui-icon-minus"></span>
-		        	</p>
-		        </div>
+		        <!div class="mui-col-xs-7 mui-text-center air-btn">
+		        	<!p style="border: 1px solid lightblue;">
+		        		<!br />
+		        		<!span class="mui-icon mui-icon-plus"></span>
+		        	<!/p>
+		        	<!p style="border: 1px solid lightblue;">
+		        		<!br />
+		        		<!span class="mui-icon mui-icon-minus"></span>
+		        	<!/p>
+		        <!/div>
 		    </div>
 		</div>
+		
+	
 </body>
 </html>
