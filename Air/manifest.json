@@ -198,7 +198,8 @@
 					"fonts/mui.ttf",
 					"css/mui.min.css",
 					"js/connectnet.js",
-					"images/back.jpg"
+					"images/back.jpg",
+					"js/req.js"
 				],
 				"refer": [],
 				"priority": 0
