@@ -112,7 +112,7 @@
 	    		<div class="mui-scroll">
 	    			<div class="mui-row mt10">
 						<div class="mui-col-xs-3 mui-text-center">
-							状态：open
+							状态：on
 						</div>
 						<div class="mui-col-xs-6 mui-text-center">
 							室外温度：35℃
@@ -162,10 +162,6 @@
 			    	<div class="mui-col-xs-50 mui-text-center">
 			    		<img src="images/logo.png"/>
 			    	</div>
-			    	<div id="consoleDiv">
-			    		<h2>控制台</h2>
-			    		
-			    	</div>
 	    		</div>
 			</div>
 		</div>
@@ -193,29 +189,24 @@
       	 */
       	function getAirData(){
       		/* httpReq: req.js中的全局对象 */
-      		httpReq.getData(function(data){
-	  			$("#wendu .font-css1").text(data.wendu);
+      		httpReq.queryAirUnitMsg(function(data){
+	      		//mui.toast(JSON.stringify(data));
+	      		var data = data.MachineMsg;
+	      		data = data.replace(/'/g,'"');
+	      		data = JSON.parse(data);
+	      		$("#wendu .font-css1").text(data.weidu);
 	  			$("#shidu .font-css1").text(data.shidu);
 	  			$("#pm .font-css1").text(data.pm);
 	  			$("#eryht .font-css1").text(data.erpht);
 	  			$("#wuran .font-css1").text(data.wuran);
-	  		});
       	}
       	
-      	/**
-      	 * 4.1 设备清单查询接口
-      	 */
-      	httpReq.queryAirUnitMsg(function(data){
-      		mui.toast(JSON.stringify(data));
-      		$("#consoleDiv").append('<p>4.1设备清单查询接口：'+JSON.stringify(data)+'</p>');
-      	});
       	
       	/**
       	 * 1.2 用户登录
       	 */
       	httpReq.login(function(data){
       		mui.toast(JSON.stringify(data));
-      		$("#consoleDiv").append('<p>1.2用户登录接口：'+JSON.stringify(data)+'</p>')
       	});
       	
     </script>
