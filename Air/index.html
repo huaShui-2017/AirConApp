@@ -213,7 +213,7 @@
       	/**
       	 * 1.2 用户登录
       	 */
-      	httpReq.queryAirUnitMsg(function(data){
+      	httpReq.login(function(data){
       		mui.toast(JSON.stringify(data));
       		$("#consoleDiv").append('<p>1.2用户登录接口：'+JSON.stringify(data)+'</p>')
       	});
