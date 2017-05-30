@@ -161,6 +161,10 @@
 		    	<div class="mui-col-xs-50 mui-text-center">
 		    		<img src="images/logo.png"/>
 		    	</div>
+		    	<div id="consoleDiv">
+		    		<h2>控制台</h2>
+		    		
+		    	</div>
 		</div>
 	
 	<script type="text/javascript" src="js/jquery.min.js" ></script>
@@ -192,6 +196,22 @@
 	  			$("#wuran .font-css1").text(data.wuran);
 	  		});
       	}
+      	
+      	/**
+      	 * 4.1 设备清单查询接口
+      	 */
+      	httpReq.queryAirUnitMsg(function(data){
+      		mui.toast(JSON.stringify(data));
+      		$("#consoleDiv").append('<p>4.1设备清单查询接口：'+JSON.stringify(data)+'</p>');
+      	});
+      	
+      	/**
+      	 * 1.2 用户登录
+      	 */
+      	httpReq.queryAirUnitMsg(function(data){
+      		mui.toast(JSON.stringify(data));
+      		$("#consoleDiv").append('<p>1.2用户登录接口：'+JSON.stringify(data)+'</p>')
+      	});
       	
     </script>
 </body>
