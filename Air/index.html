@@ -8,10 +8,11 @@
     <script src="js/connectnet.js"></script>
     <link href="css/mui.min.css" rel="stylesheet"/>
     <style type="text/css">
-    		!.main-bgColor{background:white}
+    		.div-inline{ display:inline-block;width: 49%;padding: 5px;text-align: center;} 
+    		/*main-bgColor{background:-webkit-gradient()}*/
     		.main-bgImg{
     			height: 100%;
-    			!background-image: url(images/back.jpg);
+    			background-image: url(images/back6.jpg);
     		}
 			.div-circle{
 				display: inline-block;
@@ -108,6 +109,14 @@
 	     		</nav>
 	             <!-- 主页面内容容器 -->
 	    	<div class="mui-content main-bgImg">
+				<div class="mui-row mt10">
+					<div class="mui-col-xs-3 mui-text-center">
+						状态：open
+					</div>
+					<div class="mui-col-xs-6 mui-text-center">
+						室外温度：35℃
+					</div>
+				</div>
 		    	<div class="mui-row mt20">
 		        	<div class="mui-col-xs-6 mui-text-center">
 		        		<div class="wd1 div-circle">
@@ -148,24 +157,10 @@
 			        	</div>
 			        	<div class="font-css3">TVOC mg/㎡ </div>
 			        </div>
-		    </div>
-		    <div class="mui-row main-bgColor" style="position: fixed;bottom: 50px;width: 100%;border-bottom: 1px solid deepskyblue;">
-		        <div class="mui-col-xs-5 mui-text-center font-css6">
-		        	<p>机体型号:</p>
-		        	<p>状态 :</p>
-		        	<p>室外温度:</p>
-		        </div>
-		        <!div class="mui-col-xs-7 mui-text-center air-btn">
-		        	<!p style="border: 1px solid lightblue;">
-		        		<!br />
-		        		<!span class="mui-icon mui-icon-plus"></span>
-		        	<!/p>
-		        	<!p style="border: 1px solid lightblue;">
-		        		<!br />
-		        		<!span class="mui-icon mui-icon-minus"></span>
-		        	<!/p>
-		        <!/div>
-		    </div>
+		    	</div>
+		    	<div class="mui-col-xs-50 mui-text-center">
+		    		<img src="images/logo.png"/>
+		    	</div>
 		</div>
 	
 	<script type="text/javascript" src="js/req.js" ></script>
