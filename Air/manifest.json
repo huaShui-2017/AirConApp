@@ -199,7 +199,10 @@
 					"css/mui.min.css",
 					"js/connectnet.js",
 					"images/back.jpg",
-					"js/req.js"
+					"js/req.js",
+					"images/back9.jpg",
+					"images/back10.jpg",
+					"js/jquery.min.js"
 				],
 				"refer": [],
 				"priority": 0

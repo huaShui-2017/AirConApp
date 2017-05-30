@@ -9,7 +9,7 @@ var httpReq = {
 				doSuccess(data);
 			},
 			error:function(xhr,type,errorThrown){
-				mui.toast("请求空调数据失败！");
+				mui.toast(xhr.responseText);
 			}
 		});
 	}
