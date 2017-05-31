@@ -15,7 +15,7 @@ var httpReq = {
 	},
 	// 4.1接口
 	queryAirUnitMsg: function(doSuccess){
-		mui.ajax('http://47.92.108.119:80/spring-mybatis-demo/queryAirUnitMsg/1000',{
+		mui.ajax('http://47.92.108.119:80/spring-mybatis-demo/queryAirUnitMsg/1001',{
 			dataType:'json',//服务器返回json格式数据
 			type:'post',//HTTP请求类型
 			timeout:10000,//超时时间设置为10秒；

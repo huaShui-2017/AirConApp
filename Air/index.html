@@ -12,26 +12,26 @@
 		/*main-bgColor{background:-webkit-gradient()}*/
 		.main-bgImg{
 			height: 100%;
-			background-image: url(images/back9.jpg);
+			background-image: url(images/back.jpg);
 		}
 		.div-circle{
 			display: inline-block;
 			vertical-align: middle;
-			width: 90px;
-			height: 90px;
+			width: 68px;
+			height: 68px;
 			border-radius: 50%;
-			border: 3px solid black;
+			border: 2px solid black;
 			border-color: rgba(100, 197, 205, 0.2);
 			padding: 25px 0px;
 			margin-bottom: -10px;
-			font-size: 30px;
+			font-size: 10px;
 			background: rgba(255,255,255,0.2);
 		}
 		
 		.big-circle{
 			background: lightblue;
-			width: 120px;
-			height: 120px;
+			width: 100px;
+			height: 100px;
 			margin: -10px;
 			padding-top: 15px;
 		}
@@ -40,8 +40,8 @@
 			background: white;
 			display: inline-block;
 			vertical-align: middle;
-			width: 85px;
-			height: 85px;
+			width: 70px;
+			height: 70px;
 			border-radius: 50%;
 			border: 1px solid blue ;
 			border-color: rgba(255, 255, 255, 0.5);
@@ -86,7 +86,7 @@
 	             <!-- 主页面标题 -->
 	             <header class="mui-bar mui-bar-nav main-bgColor">
 	                 <a class="mui-icon mui-action-menu mui-icon-close mui-pull-left" href="#offCanvasSide"></a>
-	                 <h1 class="mui-title">恒久物联</h1>
+	                 <h1 class="mui-title">福睿禧环保科技</h1>
 	                 <a class="mui-icon mui-action-menu mui-icon-bars mui-pull-right" href="#offCanvasSide"></a>
 	             </header>
 	             <nav class="mui-bar mui-bar-tab main-bgColor">
@@ -160,23 +160,25 @@
 				        </div>
 			    	</div>
 			    	<div class="mui-col-xs-50 mui-text-center">
-			    		<img src="images/logo.png"/>
+			    		<img src="images/logo.1.png"/>
 			    	</div>
-	    		</div>
+					<div class="mui-content">
+						<button id='showUserPicker' class="mui-btn mui-btn-block" type='button'>选择机器型号...</button>
+			    	</div>
+		    	</div>
 			</div>
 		</div>
 	
 	<script type="text/javascript" src="js/jquery.min.js" ></script>
 	<script type="text/javascript" src="js/req.js" ></script>
 	<script type="text/javascript" charset="utf-8">
-      	mui('.mui-scroll-wrapper').scroll({
+		mui('.mui-scroll-wrapper').scroll({
 	        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 	    });
       	mui.plusReady(function(){
       		mui.toast("硬件api准备成功！");
     	})
       	
-      	/**
       	 * 定时任务刷新请求获取空调数据
       	 */
       	var task1 = window.setInterval(function(){
@@ -210,6 +212,89 @@
       		mui.toast(JSON.stringify(data));
       	});
       	
+      	$.ready(function() {
+					/**
+					 * 获取对象属性的值
+					 * 主要用于过滤三级联动中，可能出现的最低级的数据不存在的情况，实际开发中需要注意这一点；
+					 * @param {Object} obj 对象
+					 * @param {String} param 属性名
+					 */
+					var _getParam = function(obj, param) {
+						return obj[param] || '';
+					};
+					//普通示例
+					var userPicker = new $.PopPicker();
+					userPicker.setData([{
+						value: 'ywj',
+						text: '董事长 叶文洁'
+					}, {
+						value: 'aaa',
+						text: '总经理 艾AA'
+					}, {
+						value: 'lj',
+						text: '罗辑'
+					}, {
+						value: 'ymt',
+						text: '云天明'
+					}, {
+						value: 'shq',
+						text: '史强'
+					}, {
+						value: 'zhbh',
+						text: '章北海'
+					}, {
+						value: 'zhy',
+						text: '庄颜'
+					}, {
+						value: 'gyf',
+						text: '关一帆'
+					}, {
+						value: 'zhz',
+						text: '智子'
+					}, {
+						value: 'gezh', 
+						text: '歌者'
+					}]);
+					var showUserPickerButton = doc.getElementById('showUserPicker');
+					var userResult = doc.getElementById('userResult');
+					showUserPickerButton.addEventListener('tap', function(event) {
+						userPicker.show(function(items) {
+							userResult.innerText = JSON.stringify(items[0]);
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					//-----------------------------------------
+					//级联示例
+					var cityPicker = new $.PopPicker({
+						layer: 2
+					});
+					cityPicker.setData(cityData);
+					var showCityPickerButton = doc.getElementById('showCityPicker');
+					var cityResult = doc.getElementById('cityResult');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						cityPicker.show(function(items) {
+							cityResult.innerText = "你选择的城市是:" + items[0].text + " " + items[1].text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					//-----------------------------------------
+					//					//级联示例
+					var cityPicker3 = new $.PopPicker({
+						layer: 3
+					});
+					cityPicker3.setData(cityData3);
+					var showCityPickerButton = doc.getElementById('showCityPicker3');
+					var cityResult3 = doc.getElementById('cityResult3');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						cityPicker3.show(function(items) {
+							cityResult3.innerText = "你选择的城市是:" + _getParam(items[0], 'text') + " " + _getParam(items[1], 'text') + " " + _getParam(items[2], 'text');
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+				});
     </script>
 </body>
 </html>

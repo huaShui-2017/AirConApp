@@ -202,7 +202,9 @@
 					"js/req.js",
 					"images/back9.jpg",
 					"images/back10.jpg",
-					"js/jquery.min.js"
+					"js/jquery.min.js",
+					"images/logo.png",
+					"images/logo.1.png"
 				],
 				"refer": [],
 				"priority": 0
