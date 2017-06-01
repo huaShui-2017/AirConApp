@@ -7,6 +7,8 @@
     <script src="js/mui.min.js"></script>
     <script src="js/connectnet.js"></script>
     <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/mui.picker.min.css" />
+    <link rel="stylesheet" href="css/mui.poppicker.css" />
     <style type="text/css">
 		.div-inline{ display:inline-block;width: 49%;padding: 5px;text-align: center;} 
 		/*main-bgColor{background:-webkit-gradient()}*/
@@ -17,8 +19,8 @@
 		.div-circle{
 			display: inline-block;
 			vertical-align: middle;
-			width: 68px;
-			height: 68px;
+			width: 85px;
+			height: 85px;
 			border-radius: 50%;
 			border: 2px solid black;
 			border-color: rgba(100, 197, 205, 0.2);
@@ -30,8 +32,8 @@
 		
 		.big-circle{
 			background: lightblue;
-			width: 100px;
-			height: 100px;
+			width: 120px;
+			height: 120px;
 			margin: -10px;
 			padding-top: 15px;
 		}
@@ -40,12 +42,12 @@
 			background: white;
 			display: inline-block;
 			vertical-align: middle;
-			width: 70px;
-			height: 70px;
+			width: 88px;
+			height: 88px;
 			border-radius: 50%;
 			border: 1px solid blue ;
 			border-color: rgba(255, 255, 255, 0.5);
-			padding-top: 10px;
+			padding-top: 15px;
 		}
 		.font-css1{color: #333333;font-size: 25px;}
 		.font-css2{color: #333333;font-size: 13px;}
@@ -117,6 +119,9 @@
 						<div class="mui-col-xs-6 mui-text-center">
 							室外温度：35℃
 						</div>
+						<div class="mui-col-xs-3">
+							<a id='showUserPicker' >选择机器</a>
+						</div>
 					</div>
 			    	<div class="mui-row mt20">
 			        	<div class="mui-col-xs-6 mui-text-center">
@@ -162,15 +167,14 @@
 			    	<div class="mui-col-xs-50 mui-text-center">
 			    		<img src="images/logo.1.png"/>
 			    	</div>
-					<div class="mui-content">
-						<button id='showUserPicker' class="mui-btn mui-btn-block" type='button'>选择机器型号...</button>
-			    	</div>
 		    	</div>
 			</div>
 		</div>
 	
 	<script type="text/javascript" src="js/jquery.min.js" ></script>
 	<script type="text/javascript" src="js/req.js" ></script>
+	<script type="text/javascript" src="js/mui.picker.js" ></script>
+	<script type="text/javascript" src="js/mui.poppicker.js" ></script>
 	<script type="text/javascript" charset="utf-8">
 		mui('.mui-scroll-wrapper').scroll({
 	        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
@@ -178,7 +182,7 @@
       	mui.plusReady(function(){
       		mui.toast("硬件api准备成功！");
     	})
-      	
+      	/*
       	 * 定时任务刷新请求获取空调数据
       	 */
       	var task1 = window.setInterval(function(){
@@ -196,7 +200,7 @@
 	      		var data = data.MachineMsg;
 	      		data = data.replace(/'/g,'"');
 	      		data = JSON.parse(data);
-	      		$("#wendu .font-css1").text(data.weidu);
+	      		$("#wendu .font-css1").text(data.weidu&&data.weidu/10);
 	  			$("#shidu .font-css1").text(data.shidu);
 	  			$("#pm .font-css1").text(data.pmval);
 	  			$("#eryht .font-css1").text(data.eryht);
@@ -206,95 +210,50 @@
       	
       	
       	/**
-      	 * 1.2 用户登录
+      	 * 1.2 用户登录 暂时不需要
       	 */
-      	httpReq.login(function(data){
+      	/*httpReq.login(function(data){
       		mui.toast(JSON.stringify(data));
-      	});
+      	});*/
       	
-      	$.ready(function() {
-					/**
-					 * 获取对象属性的值
-					 * 主要用于过滤三级联动中，可能出现的最低级的数据不存在的情况，实际开发中需要注意这一点；
-					 * @param {Object} obj 对象
-					 * @param {String} param 属性名
-					 */
-					var _getParam = function(obj, param) {
-						return obj[param] || '';
-					};
-					//普通示例
-					var userPicker = new $.PopPicker();
-					userPicker.setData([{
-						value: 'ywj',
-						text: '董事长 叶文洁'
-					}, {
-						value: 'aaa',
-						text: '总经理 艾AA'
-					}, {
-						value: 'lj',
-						text: '罗辑'
-					}, {
-						value: 'ymt',
-						text: '云天明'
-					}, {
-						value: 'shq',
-						text: '史强'
-					}, {
-						value: 'zhbh',
-						text: '章北海'
-					}, {
-						value: 'zhy',
-						text: '庄颜'
-					}, {
-						value: 'gyf',
-						text: '关一帆'
-					}, {
-						value: 'zhz',
-						text: '智子'
-					}, {
-						value: 'gezh', 
-						text: '歌者'
-					}]);
-					var showUserPickerButton = doc.getElementById('showUserPicker');
-					var userResult = doc.getElementById('userResult');
-					showUserPickerButton.addEventListener('tap', function(event) {
-						userPicker.show(function(items) {
-							userResult.innerText = JSON.stringify(items[0]);
-							//返回 false 可以阻止选择框的关闭
-							//return false;
-						});
-					}, false);
-					//-----------------------------------------
-					//级联示例
-					var cityPicker = new $.PopPicker({
-						layer: 2
-					});
-					cityPicker.setData(cityData);
-					var showCityPickerButton = doc.getElementById('showCityPicker');
-					var cityResult = doc.getElementById('cityResult');
-					showCityPickerButton.addEventListener('tap', function(event) {
-						cityPicker.show(function(items) {
-							cityResult.innerText = "你选择的城市是:" + items[0].text + " " + items[1].text;
-							//返回 false 可以阻止选择框的关闭
-							//return false;
-						});
-					}, false);
-					//-----------------------------------------
-					//					//级联示例
-					var cityPicker3 = new $.PopPicker({
-						layer: 3
-					});
-					cityPicker3.setData(cityData3);
-					var showCityPickerButton = doc.getElementById('showCityPicker3');
-					var cityResult3 = doc.getElementById('cityResult3');
-					showCityPickerButton.addEventListener('tap', function(event) {
-						cityPicker3.show(function(items) {
-							cityResult3.innerText = "你选择的城市是:" + _getParam(items[0], 'text') + " " + _getParam(items[1], 'text') + " " + _getParam(items[2], 'text');
-							//返回 false 可以阻止选择框的关闭
-							//return false;
-						});
-					}, false);
+      	$(function() {
+			/**
+			 * 获取对象属性的值
+			 * 主要用于过滤三级联动中，可能出现的最低级的数据不存在的情况，实际开发中需要注意这一点；
+			 * @param {Object} obj 对象
+			 * @param {String} param 属性名
+			 */
+			var _getParam = function(obj, param) {
+				return obj[param] || '';
+			};
+			//普通示例
+			var userPicker = new mui.PopPicker();
+			userPicker.setData([
+				{value: '1001',text: '空调1001'},
+				{value: '1002',text: '空调1002'},
+				{value: '1003',text: '空调1003'},
+				{value: '1004',text: '空调1004'},
+				{value: '1005',text: '空调1005'},
+				{value: '1006',text: '空调1006'},
+				{value: '1007',text: '空调1007'}
+			]);
+			var showUserPickerButton = document.getElementById('showUserPicker');
+			var userResult = document.getElementById('userResult');
+			showUserPickerButton.addEventListener('tap', function(event) {
+				userPicker.show(function(items) {
+					//设置全局参数空调id为当前选中id 
+					gParam.currentMachId = items[0].value;
+					//弹出选中提示
+					mui.toast("已切换至机器" + items[0].text);
+					//设置选中机器为当前选择器默认值
+					userPicker.pickers[0].setSelectedValue(items[0].value,200);
+					//请求空调数据
+					getAirData();
+					//关闭弹出层 
+					return true;
 				});
+			}, false);
+		});
     </script>
 </body>
 </html>

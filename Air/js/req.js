@@ -1,3 +1,6 @@
+var gParam = {};//全部参数
+gParam.currentMachId = 1001;//当前机器ID，默认1001
+
 var httpReq = {
 	getData: function(doSuccess){
 		mui.ajax('http://47.92.108.119:80/spring-mybatis-demo/getCust/202',{
@@ -15,7 +18,7 @@ var httpReq = {
 	},
 	// 4.1接口
 	queryAirUnitMsg: function(doSuccess){
-		mui.ajax('http://47.92.108.119:80/spring-mybatis-demo/queryAirUnitMsg/1001',{
+		mui.ajax('http://47.92.108.119:80/spring-mybatis-demo/queryAirUnitMsg/' + gParam.currentMachId,{
 			dataType:'json',//服务器返回json格式数据
 			type:'post',//HTTP请求类型
 			timeout:10000,//超时时间设置为10秒；

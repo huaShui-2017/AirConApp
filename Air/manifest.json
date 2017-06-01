@@ -204,7 +204,12 @@
 					"images/back10.jpg",
 					"js/jquery.min.js",
 					"images/logo.png",
-					"images/logo.1.png"
+					"images/logo.1.png",
+					"css/mui.picker.css",
+					"js/mui.picker.js",
+					"css/mui.poppicker.css",
+					"js/mui.poppicker.js",
+					"css/mui.picker.min.css"
 				],
 				"refer": [],
 				"priority": 0
