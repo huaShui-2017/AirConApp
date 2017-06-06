@@ -19,8 +19,8 @@
 		.div-circle{
 			display: inline-block;
 			vertical-align: middle;
-			width: 85px;
-			height: 85px;
+			width: 80px;
+			height: 80px;
 			border-radius: 50%;
 			border: 2px solid black;
 			border-color: rgba(100, 197, 205, 0.2);
@@ -49,7 +49,7 @@
 			border-color: rgba(255, 255, 255, 0.5);
 			padding-top: 15px;
 		}
-		.font-css1{color: #333333;font-size: 25px;}
+		.font-css1{color: #333333;font-size: 30px;}
 		.font-css2{color: #333333;font-size: 13px;}
 		.font-css3{color: #333333;line-height: 2.5em;font-size: 18px;}
 		.font-css4{color: lightcoral;font-size: 18px;}
@@ -114,10 +114,10 @@
 	    		<div class="mui-scroll">
 	    			<div class="mui-row mt10">
 						<div class="mui-col-xs-3 mui-text-center">
-							状态：on
+							状态：
 						</div>
 						<div class="mui-col-xs-6 mui-text-center">
-							室外温度：35℃
+							开关：
 						</div>
 						<div class="mui-col-xs-3">
 							<a id='showUserPicker' >选择机器</a>
@@ -127,23 +127,22 @@
 			        	<div class="mui-col-xs-6 mui-text-center">
 			        		<div class="wd1 div-circle" id="wendu">
 			        			<div class="font-css1">16</div>
-			        			<div class="font-css2">舒适</div>
 			        		</div>
 			        		<div class="font-css3">温度℃</div>
 			        	</div>
 				        <div class="mui-col-xs-6 mui-text-center">
 				        	<div class="div-circle" id="shidu">
 				        		<div class="font-css1">13.8</div>
-				        		<div class="font-css2">较干</div>
+
 				        	</div>
-				        	<div class="font-css3">湿度%</div>
+				        	<div class="font-css3">设定温度℃</div>
 				        </div>
 				        <div class="mui-col-xs-12 mui-text-center">
 				        	<div class="div-circle big-circle">
 				        		<div class="inner-circle" id="pm">
-				        			<div class="font-css4">PM2.5</div>
+				        			<div class="font-css4">PM2.5指数</div>
 					        		<div class="font-css1">34</div>
-					        		<div class="font-css2">优良</div>
+
 				        		</div>
 				        	</div>
 				        </div>
@@ -152,16 +151,16 @@
 				        <div class="mui-col-xs-6 mui-text-center">
 				        	<div class="div-circle" id="eryht">
 				        		<div class="font-css1">232</div>
-				        		<div class="font-css2">清新</div>
+
 				        	</div>
-				        	<div class="font-css3">二氧化碳PPM</div>
+				        	<div class="font-css3">送风温度℃</div>
 				        </div>
 				        <div class="mui-col-xs-6 mui-text-center">
 				        	<div class="div-circle" id="wuran">
 				        		<div class="font-css1">0.76</div>
-				        		<div class="font-css2">轻度污染</div>
+
 				        	</div>
-				        	<div class="font-css3">TVOC mg/㎡ </div>
+				        	<div class="font-css3">PM2.5浓度  μg/m³</div>
 				        </div>
 			    	</div>
 			    	<div class="mui-col-xs-50 mui-text-center">
@@ -201,10 +200,10 @@
 	      		data = data.replace(/'/g,'"');
 	      		data = JSON.parse(data);
 	      		$("#wendu .font-css1").text(data.weidu&&data.weidu/10);
-	  			$("#shidu .font-css1").text(data.shidu);
+	  			$("#shidu .font-css1").text(data.shidu/10);
 	  			$("#pm .font-css1").text(data.pmval);
-	  			$("#eryht .font-css1").text(data.eryht);
-	  			$("#wuran .font-css1").text(data.tvoc);
+	  			$("#eryht .font-css1").text(data.eryht/10);
+	  			$("#wuran .font-css1").text(data.tvoc/10);
 	  		});
       	}
       	
