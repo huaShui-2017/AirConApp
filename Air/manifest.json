@@ -209,9 +209,24 @@
 					"js/mui.picker.js",
 					"css/mui.poppicker.css",
 					"js/mui.poppicker.js",
-					"css/mui.picker.min.css"
+					"css/mui.picker.min.css",
+					"js/common.js"
 				],
 				"refer": [],
+				"priority": 0
+			},
+			"login.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/req.js",
+					"js/mui.enterfocus.js"
+				],
+				"refer": [
+					"index.html"
+				],
 				"priority": 0
 			}
 		},
