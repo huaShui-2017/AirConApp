@@ -87,9 +87,9 @@
 	             </aside>
 	             <!-- 主页面标题 -->
 	             <header class="mui-bar mui-bar-nav main-bgColor">
-	                 <a class="mui-icon mui-action-menu mui-icon-close mui-pull-left" href="#offCanvasSide"></a>
+	                 <a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left" href="#offCanvasSide"></a>
 	                 <h1 class="mui-title">福睿禧环保科技</h1>
-	                 <a class="mui-icon mui-action-menu mui-icon-bars mui-pull-right" href="#offCanvasSide"></a>
+	                 <a id="exit" class="mui-action-back mui-icon mui-action-menu mui-icon-close mui-pull-right"></a>
 	             </header>
 	             <nav class="mui-bar mui-bar-tab main-bgColor">
 	     		    <a class="mui-tab-item mui-active">
@@ -125,7 +125,7 @@
 							 
 						</div>
 						<div class="mui-col-xs-2 mui-switch mui-active">  
-        						<div class="mui-switch-handle"></div>  
+        						<div class="mui-switch-handle" id="switchBtn1"></div>  
     					</div> 
 					</div>
 			    	<div class="mui-row mt20">
@@ -179,6 +179,7 @@
 	<script type="text/javascript" src="js/req.js" ></script>
 	<script type="text/javascript" src="js/mui.picker.js" ></script>
 	<script type="text/javascript" src="js/mui.poppicker.js" ></script>
+	<script type="text/javascript" src="js/common.js" ></script>
 	<script type="text/javascript" charset="utf-8">
 		mui('.mui-scroll-wrapper').scroll({
 	        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
@@ -204,11 +205,7 @@
 	      		var data = data.MachineMsg;
 	      		data = data.replace(/'/g,'"');
 	      		data = JSON.parse(data);
-	      		$("#wendu .font-css1").text(data.weidu&&data.weidu/10);
-	  			$("#shidu .font-css1").text(data.shidu/10);
-	  			$("#pm .font-css1").text(data.pmval);
-	  			$("#eryht .font-css1").text(data.eryht/10);
-	  			$("#wuran .font-css1").text(data.tvoc/10);
+	  			setValues(data.weidu,data.shidu,data.pmval,data.eryht,data.tvoc);
 	  		});
       	}
       	
@@ -257,7 +254,40 @@
 					return true;
 				});
 			}, false);
+			mui(".mui-switch").on('tap','#switchBtn1',function(event){
+			  console.log(this);
+			  var p = $(this).parent();
+			  var flag = 0;//默认为开
+			  if($(p).hasClass("mui-active")){
+			  	//打开开关
+			  	flag = 1;
+			  }
+			  httpReq.switch(flag,function(){
+			  	mui.toast("操作成功");
+			  	if(flag==0){
+			  		window.clearInterval(task1);
+			  		setValues(0,0,0,0,0);
+			  	}else{
+			  		getAirData();
+			  		task1 = window.setInterval(function(){
+			      		getAirData();
+			      	},3000);
+			  	}
+			  },function(){
+			  	stopBubble(event);
+			  	mui.toast("操作失败！");
+			  });
+			});
+			
 		});
+		
+		function setValues(wendu, sWendu, pm, sfWendu, pmnd){
+			$("#wendu .font-css1").text(wendu/10);
+  			$("#shidu .font-css1").text(sWendu/10);
+  			$("#pm .font-css1").text(pm);
+  			$("#eryht .font-css1").text(sfWendu/10);
+  			$("#wuran .font-css1").text(pmnd/10);
+		}
     </script>
 </body>
 </html>

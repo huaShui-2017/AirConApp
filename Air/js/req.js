@@ -1,3 +1,4 @@
+var loginUser = {userName: '',pwd: ''};
 var gParam = {};//全部参数
 gParam.currentMachId = 1001;//当前机器ID，默认1001
 
@@ -44,6 +45,25 @@ var httpReq = {
 			},
 			error:function(xhr,type,errorThrown){
 				mui.toast("请求失败！" + xhr.responseText);
+			}
+		});
+	},
+	
+	//5.1接口
+	/**
+	 * @param flag 0 关 1开
+	 */
+	switch: function(flag,doSuccess,doError){
+		mui.ajax('http://47.92.108.119:80/spring-mybatis-demo/sendCmd/' + gParam.currentMachId + '/' + flag,{
+			dataType:'json',//服务器返回json格式数据
+			type:'post',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；
+			headers:{'Content-Type':'application/json'},	              
+			success:function(data){
+				doSuccess(data);
+			},
+			error:function(xhr,type,errorThrown){
+				doError();
 			}
 		});
 	}
