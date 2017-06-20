@@ -74,6 +74,9 @@
 			top: 0px;
 			right: 20px;
 		}
+		.p5{
+			padding: 5px;
+		}
 	</style>
 	
 </head>
@@ -121,14 +124,14 @@
 	    	<div class="mui-content main-bgImg mui-scroll-wrapper ">
 	    		<div class="mui-scroll">
 	    			<div class="mui-row mt10">
-						<div class="mui-col-xs-4 mui-text-center">
-							状态：
+						<div class="mui-col-xs-4 mui-text-center p5">
+							状态：<label id="statusLabel">关</label>
 						</div>
 						
-						<div class="mui-col-xs-3">
+						<div class="mui-col-xs-3 p5">
 							<a id='showUserPicker' >选择机器</a>
 						</div>
-						<div class="mui-col-xs-2 mui-text-center">
+						<div class="mui-col-xs-2 mui-text-center p5">
 							开关：
 							 
 						</div>
@@ -221,16 +224,18 @@
 	      		data = data.replace(/'/g,'"');
 	      		data = JSON.parse(data);
       			//判断状态
-      			if(data.status == '1'){
+      			if(data.status == '0'){
       				if($("#switchBtn1").hasClass("mui-active")){
       					mui("#switchBtn1").switch().toggle();
       				}
+      				$("#statusLabel").text("关");
       			}else{
       				startTask1();
       				//mui.toast(JSON.stringify(data));
 		      		if(!$("#switchBtn1").hasClass("mui-active")){
       					mui("#switchBtn1").switch().toggle();
       				}
+		      		$("#statusLabel").text("开");
 		      		
 		      		var pmval;
 		      		if(gParam.currentMachId == 1002||gParam.currentMachId == 1004||gParam.currentMachId == 1005){
@@ -320,8 +325,10 @@
 					console.log("你启动了开关");
 					//打开开关
 					flag = 1;
+					$("#statusLabel").text("开");
 				}else{
 					console.log("你关闭了开关");
+					$("#statusLabel").text("关");
 				}
 				httpReq.switch(flag,function(){
 					if(flag==0){
