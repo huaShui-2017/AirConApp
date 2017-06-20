@@ -136,7 +136,7 @@
         					<div class="mui-switch-handle" ></div>  
     					</div>
     					<!--防止点击切换按钮过快-->
-    					<div class="swith-disabled" onclick="mui.toast('机器正在处理，请稍后。')">
+    					<div id="swith-disabled" class="swith-disabled">
     					</div>
 					</div>
 			    	<div class="mui-row mt20">
@@ -198,25 +198,62 @@
       	mui.plusReady(function(){
       		mui.toast("硬件api准备成功！");
     	})
-      	/*
-      	 * 定时任务刷新请求获取空调数据
-      	 */
-      	var task1 = window.setInterval(function(){
-      		getAirData();
-      	},3000);
       	
+      	var task1;
+      	function closeTask1(){
+      		task1&&window.clearInterval(task1);
+      	}
+      	
+      	function startTask1(){
+			task1 = window.setInterval(function(){
+				getAirData();
+			},3000);
+      	}
       	
       	/**
       	 * 获取空调温度、湿度、PM2.5、二氧化碳、污染数据
       	 */
       	function getAirData(){
+      		closeTask1();
       		/* httpReq: req.js中的全局对象 */
       		httpReq.queryAirUnitMsg(function(data){
-	      		//mui.toast(JSON.stringify(data));
-	      		var data = data.MachineMsg;
+      			var data = data.MachineMsg;
 	      		data = data.replace(/'/g,'"');
 	      		data = JSON.parse(data);
-	  			setValues(data.weidu,data.shidu,data.pmval,data.eryht,data.tvoc);
+      			//判断状态
+      			if(data.status == '1'){
+      				if($("#switchBtn1").hasClass("mui-active")){
+      					mui("#switchBtn1").switch().toggle();
+      				}
+      			}else{
+      				startTask1();
+      				//mui.toast(JSON.stringify(data));
+		      		if(!$("#switchBtn1").hasClass("mui-active")){
+      					mui("#switchBtn1").switch().toggle();
+      				}
+		      		
+		      		var pmval;
+		      		if(gParam.currentMachId == 1002||gParam.currentMachId == 1004||gParam.currentMachId == 1005){
+		      			pmval = data.pmval/5;
+		      		}else{
+		      			pmval = data.pmval/3;
+		      		}
+		      		pmval = pmval.toFixed(1);
+		  			setValues(data.weidu,data.shidu,pmval,data.eryht,data.tvoc);
+		  			
+		  			
+		  			//判断字段
+		  			var num8 = data.strv1&&data.strv1.substring(7,8);
+		  			var num9 = data.strv1&&data.strv1.substring(8,9);
+		  			if(num8 == '1'){
+		  				mui.toast("送风机过载");
+		  			}
+		  			if(num9 == '1'){
+		  				mui.toast("送风机压差保护");
+		  			}
+      				
+      			}
+	  			
 	  		});
       	}
       	
@@ -229,6 +266,7 @@
       	});*/
       	
       	$(function() {
+      		getAirData();
 			/**
 			 * 获取对象属性的值
 			 * 主要用于过滤三级联动中，可能出现的最低级的数据不存在的情况，实际开发中需要注意这一点；
@@ -268,6 +306,7 @@
 			
 			
 			document.getElementById("switchBtn1").addEventListener("toggle",function(event){
+				closeTask1();
 				//挡住按钮
 				$(".swith-disabled").css("z-index","1");
 				//十秒后放开按钮
@@ -285,20 +324,19 @@
 					console.log("你关闭了开关");
 				}
 				httpReq.switch(flag,function(){
-					mui.toast("操作成功");
 					if(flag==0){
-						window.clearInterval(task1);
 						setValues(0,0,0,0,0);
 					}else{
 						getAirData();
-						task1 = window.setInterval(function(){
-							getAirData();
-						},3000);
 					}
 				},function(){
 					stopBubble(event);
 					mui.toast("操作失败！");
 				});
+			});
+			
+			$("#swith-disabled").on("tap",function(){
+				mui.toast('机器正在处理，请稍后。');
 			})
 			
 		});
