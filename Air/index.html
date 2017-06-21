@@ -212,52 +212,61 @@
 				getAirData();
 			},3000);
       	}
+      	var airFlag = 0;//默认为关
       	
       	/**
       	 * 获取空调温度、湿度、PM2.5、二氧化碳、污染数据
       	 */
       	function getAirData(){
-      		closeTask1();
+      		//closeTask1();
       		/* httpReq: req.js中的全局对象 */
       		httpReq.queryAirUnitMsg(function(data){
       			var data = data.MachineMsg;
 	      		data = data.replace(/'/g,'"');
 	      		data = JSON.parse(data);
+	      		
       			//判断状态
-      			if(data.status == '0'){
-      				if($("#switchBtn1").hasClass("mui-active")){
-      					mui("#switchBtn1").switch().toggle();
-      				}
-      				$("#statusLabel").text("关");
+      			if(data.status == 0){
+//    				if($("#switchBtn1").hasClass("mui-active")){
+//    					mui("#switchBtn1").switch().toggle();
+//    				}
+					if(airFlag == data.status){
+						$(".swith-disabled").css("z-index","0");
+	      				$("#statusLabel").text("关");
+	      			}
       			}else{
-      				startTask1();
+      				//startTask1();
       				//mui.toast(JSON.stringify(data));
-		      		if(!$("#switchBtn1").hasClass("mui-active")){
-      					mui("#switchBtn1").switch().toggle();
-      				}
-		      		$("#statusLabel").text("开");
-		      		
-		      		var pmval;
-		      		if(gParam.currentMachId == 1002||gParam.currentMachId == 1004||gParam.currentMachId == 1005){
-		      			pmval = data.pmval/5;
-		      		}else{
-		      			pmval = data.pmval/3;
-		      		}
-		      		pmval = pmval.toFixed(1);
-		  			setValues(data.weidu,data.shidu,pmval,data.eryht,data.tvoc);
-		  			
-		  			
-		  			//判断字段
-		  			var num8 = data.strv1&&data.strv1.substring(7,8);
-		  			var num9 = data.strv1&&data.strv1.substring(8,9);
-		  			if(num8 == '1'){
-		  				mui.toast("送风机过载");
-		  			}
-		  			if(num9 == '1'){
-		  				mui.toast("送风机压差保护");
-		  			}
-      				
+//		      		if(!$("#switchBtn1").hasClass("mui-active")){
+//    					mui("#switchBtn1").switch().toggle();
+//    				}
+					if(airFlag == data.status){
+						$(".swith-disabled").css("z-index","0");
+	      				$("#statusLabel").text("开");
+	      			}
       			}
+	      		var pmval,tvoc;
+	      		if(gParam.currentMachId == 1002||gParam.currentMachId == 1004||gParam.currentMachId == 1005){
+	      			pmval = data.pmval/5;
+	      			tvoc = data.tvoc/5;
+	      		}else{
+	      			pmval = data.pmval/3;
+	      			tvoc = data.tvoc/3;
+	      		}
+	      		pmval = (pmval*10);
+	      		tvoc = (tvoc*10);
+	  			setValues(data.weidu,data.shidu,pmval,data.eryht,tvoc);
+	  			
+	  			
+	  			//判断字段
+	  			var num10 = data.strv1&&data.strv1.substring(9,10);
+	  			var num9 = data.strv1&&data.strv1.substring(8,9);
+	  			if(num10 == '1'){
+	  				mui.toast("送风机过载");
+	  			}
+	  			if(num9 == '1'){
+	  				mui.toast("送风机压差保护");
+	  			}
 	  			
 	  		});
       	}
@@ -272,6 +281,7 @@
       	
       	$(function() {
       		getAirData();
+      		startTask1();
 			/**
 			 * 获取对象属性的值
 			 * 主要用于过滤三级联动中，可能出现的最低级的数据不存在的情况，实际开发中需要注意这一点；
@@ -311,28 +321,21 @@
 			
 			
 			document.getElementById("switchBtn1").addEventListener("toggle",function(event){
-				closeTask1();
+				//closeTask1();
 				//挡住按钮
 				$(".swith-disabled").css("z-index","1");
 				//十秒后放开按钮
-				setTimeout(function(){
-					//放开按钮
-					$(".swith-disabled").css("z-index","0");
-				},10000);
-				
-				var flag = 0;//默认为关
+				$("#statusLabel").text("...");
 				if(event.detail.isActive){
 					console.log("你启动了开关");
 					//打开开关
-					flag = 1;
-					$("#statusLabel").text("开");
+					airFlag = 1;
 				}else{
+					airFlag = 0;
 					console.log("你关闭了开关");
-					$("#statusLabel").text("关");
 				}
-				httpReq.switch(flag,function(){
-					if(flag==0){
-						setValues(0,0,0,0,0);
+				httpReq.switch(airFlag,function(){
+					if(airFlag==0){
 					}else{
 						getAirData();
 					}
@@ -349,11 +352,16 @@
 		});
 		
 		function setValues(wendu, sWendu, pm, sfWendu, pmnd){
-			$("#wendu .font-css1").text(wendu/10);
-			$("#shidu .font-css1").text(sWendu/10);
+			wendu = (wendu/10).toFixed(1);
+			sWendu = (sWendu/10).toFixed(1);
+			pm = pm.toFixed(1);
+			sfWendu = (sfWendu/10).toFixed(1);
+			pmnd = (pmnd/10).toFixed(1);
+			$("#wendu .font-css1").text(wendu);
+			$("#shidu .font-css1").text(sWendu);
   			$("#pm .font-css1").text(pm);
-  			$("#eryht .font-css1").text(sfWendu/10);
-  			$("#wuran .font-css1").text(pmnd/10);
+  			$("#eryht .font-css1").text(sfWendu);
+  			$("#wuran .font-css1").text(pmnd);
 		}
     </script>
 </body>
