@@ -135,7 +135,8 @@
 							开关：
 							 
 						</div>
-						<div class="mui-col-xs-2 mui-switch mui-active" id="switchBtn1">  
+						<!-- mui-active -->
+						<div class="mui-col-xs-2 mui-switch mui-switch1" id="switchBtn1">  
         					<div class="mui-switch-handle" ></div>  
     					</div>
     					<!--防止点击切换按钮过快-->
@@ -224,27 +225,24 @@
       			var data = data.MachineMsg;
 	      		data = data.replace(/'/g,'"');
 	      		data = JSON.parse(data);
-	      		
       			//判断状态
+      			/*var $sb = $("#switchBtn1");
+      			var $sb_clone;*/
       			if(data.status == 0){
-//    				if($("#switchBtn1").hasClass("mui-active")){
-//    					mui("#switchBtn1").switch().toggle();
-//    				}
-					if(airFlag == data.status){
-						$(".swith-disabled").css("z-index","0");
-	      				$("#statusLabel").text("关");
-	      			}
+      				/*$sb_clone = '<div class="mui-col-xs-2 mui-switch mui-switch1" id="switchBtn1">'  
+    				+'	<div class="mui-switch-handle" ></div>'  
+    				+'</div>';*/
+      				$("#statusLabel").text("关");
       			}else{
-      				//startTask1();
-      				//mui.toast(JSON.stringify(data));
-//		      		if(!$("#switchBtn1").hasClass("mui-active")){
-//    					mui("#switchBtn1").switch().toggle();
-//    				}
-					if(airFlag == data.status){
-						$(".swith-disabled").css("z-index","0");
-	      				$("#statusLabel").text("开");
-	      			}
+      				/*$sb_clone = '<div class="mui-col-xs-2 mui-switch mui-switch1 mui-active" id="switchBtn1">'  
+    				+'	<div class="mui-switch-handle" ></div>'  
+    				+'</div>';*/
+      				$("#statusLabel").text("开");
       			}
+      			/*$sb.after($sb_clone);
+      			$sb.remove();
+      			bindSwith1();*/
+      			
 	      		var pmval,tvoc;
 	      		if(gParam.currentMachId == 1002||gParam.currentMachId == 1004||gParam.currentMachId == 1005){
 	      			pmval = data.pmval/5;
@@ -253,8 +251,6 @@
 	      			pmval = data.pmval/3;
 	      			tvoc = data.tvoc/3;
 	      		}
-	      		pmval = (pmval*10);
-	      		tvoc = (tvoc*10);
 	  			setValues(data.weidu,data.shidu,pmval,data.eryht,tvoc);
 	  			
 	  			
@@ -319,13 +315,27 @@
 				});
 			}, false);
 			
+			bindSwith1();
+			$("#swith-disabled").on("tap",function(){
+				mui.toast('机器正在处理，请稍后。');
+			})
 			
-			document.getElementById("switchBtn1").addEventListener("toggle",function(event){
+		});
+		
+		var btnStatus = {'1001': 0,'1002': 0,'1003': 0,'1004': 0,'1005': 0,'1006': 0,'1007': 0};	
+		
+		function bindSwith1(){
+			document.getElementById("switchBtn1").addEventListener('toggle',function(event){
 				//closeTask1();
 				//挡住按钮
 				$(".swith-disabled").css("z-index","1");
+				
 				//十秒后放开按钮
-				$("#statusLabel").text("...");
+				setTimeout(function(){
+					//放开按钮
+					$(".swith-disabled").css("z-index","0");
+				},10000);
+				
 				if(event.detail.isActive){
 					console.log("你启动了开关");
 					//打开开关
@@ -334,7 +344,10 @@
 					airFlag = 0;
 					console.log("你关闭了开关");
 				}
+				btnStatus[gParam.currentMachId]
+				
 				httpReq.switch(airFlag,function(){
+					mui.toast("操作成功，请等待机器处理...")
 					if(airFlag==0){
 					}else{
 						getAirData();
@@ -344,12 +357,7 @@
 					mui.toast("操作失败！");
 				});
 			});
-			
-			$("#swith-disabled").on("tap",function(){
-				mui.toast('机器正在处理，请稍后。');
-			})
-			
-		});
+		}
 		
 		function setValues(wendu, sWendu, pm, sfWendu, pmnd){
 			wendu = (wendu/10).toFixed(1);
